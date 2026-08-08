@@ -9,7 +9,7 @@ import joblib
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-from .config import CONFIG, MODEL_DIR
+from .config import MODEL_DIR
 from .validation import SCHEMA
 
 logger = logging.getLogger(__name__)
