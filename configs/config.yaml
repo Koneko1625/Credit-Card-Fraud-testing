@@ -1,6 +1,4 @@
-# Central config so no magic numbers live inside pipeline code.
 data:
-  kaggle_dataset: "mlg-ulb/creditcardfraud"
   raw_path: "data/raw/creditcard.csv"
   processed_dir: "data/processed"
 
