@@ -1,0 +1,31 @@
+# Central config so no magic numbers live inside pipeline code.
+data:
+  kaggle_dataset: "mlg-ulb/creditcardfraud"
+  raw_path: "data/raw/creditcard.csv"
+  processed_dir: "data/processed"
+
+split:
+  train_fraction: 0.8   # time-ordered split (not random) — matches Part A
+
+model:
+  random_state: 42
+  xgboost_tuned:
+    n_estimators: 300
+    max_depth: 5
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    eval_metric: "logloss"
+
+evaluation:
+  threshold_min: 0.0
+  threshold_max: 1.0
+  threshold_step: 0.05
+
+mlflow:
+  tracking_uri: "mlruns"          # local file store by default; point at a server URI in prod
+  experiment_name: "credit-card-fraud-detection"
+  registered_model_name: "fraud-detector"
+
+artifacts:
+  model_dir: "models"
