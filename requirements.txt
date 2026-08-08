@@ -5,7 +5,7 @@ scikit-learn==1.5.1
 xgboost==2.1.0
 
 # Validation
-pandera[pandas]>=0.24.0,<1.0.0 
+pandera[pandas]>=0.24.0,<1.0.0
 
 # Experiment tracking + registry
 mlflow==2.15.1
@@ -19,9 +19,6 @@ pyyaml==6.0.2
 # Utilities
 joblib==1.4.2
 matplotlib==3.9.1
-
-# Ingestion
-kaggle==1.6.17
 
 # Testing
 pytest==8.3.2
