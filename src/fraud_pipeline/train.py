@@ -1,14 +1,18 @@
 """Stage 4: Training, with MLflow tracking wired in.
 
-Every call to train_logistic_regression() / train_xgboost() opens an
-MLflow run, logs params + the fitted model, and (for the tuned model)
-registers it in the Model Registry so versions are tracked over time.
-This replaces Part A's `joblib.dump(...)` — the model artifact, its
-hyperparameters, and its lineage now all live in one tracked place.
+train_logistic_regression() / train_xgboost_tuned() log params + the
+fitted model to MLflow. Each function logs into whichever MLflow run
+is already active (e.g. the one pipeline.py opens around the whole
+training+evaluation block) rather than opening its own — opening a
+second run while one is already active is an error, not a nested run,
+unless you explicitly ask for nested=True. If no run is active when
+one of these is called directly (standalone use, outside the
+pipeline), it opens and manages its own run instead.
 """
 from __future__ import annotations
 
 import logging
+from contextlib import contextmanager
 
 import mlflow
 import mlflow.sklearn
@@ -26,10 +30,23 @@ XGB_PARAMS = CONFIG["model"]["xgboost_tuned"]
 REGISTERED_MODEL_NAME = CONFIG["mlflow"]["registered_model_name"]
 
 
+@contextmanager
+def _run_or_reuse_active(run_name: str):
+    """Yields the currently active MLflow run if there is one; otherwise
+    opens a new one (and closes it on exit). Prevents the "Run ... is
+    already active" error when called from inside an outer
+    `with mlflow.start_run():` block, while still working standalone."""
+    if mlflow.active_run() is not None:
+        yield
+    else:
+        with mlflow.start_run(run_name=run_name):
+            yield
+
+
 def train_logistic_regression(
     X_train: pd.DataFrame, y_train: pd.Series, run_name: str = "logistic_regression_baseline"
 ) -> LogisticRegression:
-    with mlflow.start_run(run_name=run_name):
+    with _run_or_reuse_active(run_name):
         params = {"random_state": RANDOM_STATE, "max_iter": 1000}
         mlflow.log_params(params)
         mlflow.set_tag("model_family", "logistic_regression")
@@ -52,7 +69,7 @@ def train_xgboost_tuned(
     positive = int((y_train == 1).sum())
     scale_pos_weight = negative / positive
 
-    with mlflow.start_run(run_name=run_name):
+    with _run_or_reuse_active(run_name):
         params = {**XGB_PARAMS, "random_state": RANDOM_STATE, "scale_pos_weight": scale_pos_weight}
         mlflow.log_params(params)
         mlflow.set_tag("model_family", "xgboost")
