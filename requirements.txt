@@ -10,9 +10,6 @@ pandera[pandas]>=0.24.0,<1.0.0
 # Experiment tracking + registry
 mlflow>=2.10.0
 
-# Orchestration
-prefect>=2.19.0
-
 # Config
 pyyaml>=6.0.0
 

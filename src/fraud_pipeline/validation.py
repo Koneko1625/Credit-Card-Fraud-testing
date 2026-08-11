@@ -1,3 +1,10 @@
+"""Stage 2: Data validation.
+
+This is the pandera schema from Part A's "Data Validation" section,
+lifted verbatim into a reusable function so both the pipeline and the
+test suite can call it against any DataFrame (not just the one global
+`df` the notebook relied on).
+"""
 from __future__ import annotations
 
 import logging
@@ -19,7 +26,12 @@ SCHEMA = pa.DataFrameSchema(
 
 
 def validate_data(df: pd.DataFrame) -> pd.DataFrame:
+    """Validates df against SCHEMA and returns it (coerced) on success.
 
+    Raises pandera.errors.SchemaError on failure — the pipeline should
+    let that propagate and stop the run rather than silently continuing
+    on bad data.
+    """
     validated_df = SCHEMA.validate(df)
     logger.info(
         "Validation passed: %s rows, %s columns, %s missing, %s duplicates",
@@ -32,7 +44,8 @@ def validate_data(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def validation_summary(df: pd.DataFrame) -> dict:
-
+    """Same summary Part A printed, returned as a dict so it can be
+    logged to MLflow as run params/tags instead of just stdout."""
     return {
         "rows": df.shape[0],
         "columns": df.shape[1],

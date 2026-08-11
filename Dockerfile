@@ -17,6 +17,5 @@ COPY configs/ configs/
 RUN mkdir -p data/raw data/processed models
 
 ENV PYTHONPATH=/app
-ENV MLFLOW_TRACKING_URI=/app/mlruns
 
-CMD ["python", "-m", "src.fraud_pipeline.flow"]
+CMD ["python", "-m", "src.fraud_pipeline.pipeline"]

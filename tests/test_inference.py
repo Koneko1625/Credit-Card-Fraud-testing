@@ -1,5 +1,8 @@
-
-
+"""Unit tests for the batch inference interface — this is the contract
+Person C builds drift testing on top of, so it gets the most scrutiny:
+correct output shape/columns, correct thresholding, and that malformed
+batches are rejected rather than silently scored.
+"""
 import pytest
 from pandera.errors import SchemaError
 from sklearn.linear_model import LogisticRegression

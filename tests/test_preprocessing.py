@@ -1,4 +1,8 @@
-
+"""Unit tests for the split + scaling stage — the two things Part A's
+notebook did in cells that had no tests at all: (1) the split must be
+time-ordered, not random, and hold the configured ratio; (2) the scaler
+must be fit on train only and actually normalize Amount.
+"""
 import numpy as np
 
 from src.fraud_pipeline.preprocessing import scale_amount, time_ordered_split

@@ -1,3 +1,15 @@
+"""Stage 3: Preprocessing.
+
+Time-ordered split + Amount scaling, exactly as Part A did it: sort by
+Time, take the first 80% as train / last 20% as test (this is fraud
+data with a time axis, so a random split would leak future information
+into training), then fit StandardScaler on train only and apply it to
+both.
+
+Returned as plain functions with explicit inputs/outputs — no reliance
+on notebook global state — so each piece is independently unit-testable
+and reusable by inference.py for scoring new batches.
+"""
 from __future__ import annotations
 
 import logging
@@ -34,9 +46,11 @@ def time_ordered_split(
 def scale_amount(
     X_train: pd.DataFrame, X_test: pd.DataFrame
 ) -> Tuple[pd.DataFrame, pd.DataFrame, StandardScaler]:
-    """Fits StandardScaler on train's Amount column only, applies to both."""
+    """Fits StandardScaler on train's Amount column only, applies to both.
 
-
+    Returns the fitted scaler too — it must be saved alongside the model
+    so inference.py can apply the identical transform to new batches.
+    """
     X_train = X_train.copy()
     X_test = X_test.copy()
 

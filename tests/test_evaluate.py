@@ -1,4 +1,8 @@
-
+"""Unit tests for the pure-function parts of evaluation: metric math and
+the threshold sweep. Deliberately does NOT assert on what the metric
+values should be (that's model quality, owned by evaluation/A) — only
+that the functions compute what they claim to, on known inputs.
+"""
 import numpy as np
 import pandas as pd
 

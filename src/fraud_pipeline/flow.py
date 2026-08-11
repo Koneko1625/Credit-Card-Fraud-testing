@@ -1,3 +1,18 @@
+"""Stage orchestration with Prefect.
+
+Turns the notebook's top-to-bottom cell execution into a real pipeline:
+ingestion -> validation -> preprocessing -> training -> evaluation ->
+save artifacts, each as its own @task so Prefect gives us retries,
+logging, and a run graph for free. Run directly with:
+
+    python -m fraud_pipeline.flow
+
+or deploy it (`prefect deploy`) to run on a schedule / trigger.
+
+If Prefect isn't available in your environment, `Makefile` in the repo
+root chains the same stages as plain `python -m` calls — functionally
+equivalent, just without retries/scheduling/observability.
+"""
 from __future__ import annotations
 
 import logging

@@ -1,4 +1,11 @@
+"""Stage 4: Training, with MLflow tracking wired in.
 
+Every call to train_logistic_regression() / train_xgboost() opens an
+MLflow run, logs params + the fitted model, and (for the tuned model)
+registers it in the Model Registry so versions are tracked over time.
+This replaces Part A's `joblib.dump(...)` — the model artifact, its
+hyperparameters, and its lineage now all live in one tracked place.
+"""
 from __future__ import annotations
 
 import logging

@@ -1,4 +1,7 @@
-
+"""Shared fixtures — a small synthetic dataset shaped like creditcard.csv
+so tests run in milliseconds and never depend on the real (Kaggle-gated,
+284k-row) dataset being present.
+"""
 import numpy as np
 import pandas as pd
 import pytest

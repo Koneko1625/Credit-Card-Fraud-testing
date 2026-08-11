@@ -1,4 +1,7 @@
-
+"""Unit tests for the pandera schema — code correctness, not model quality.
+Checks the validation stage catches exactly the malformed inputs it
+should and passes clean ones through unchanged.
+"""
 import pandas as pd
 import pytest
 from pandera.errors import SchemaError
