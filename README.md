@@ -1,10 +1,5 @@
 # Credit Card Fraud Detection — MLOps Pipeline
 
-Turns Person A's exploratory notebook (`notebooks/Part_A_reference.ipynb`) into a
-tracked, tested, rerunnable pipeline. Nothing about the modeling logic changed —
-same time-ordered split, same `Amount` scaling, same tuned XGBoost — it's just no
-longer trapped in notebook cell order.
-
 ## Architecture
 
 ```mermaid
@@ -137,9 +132,6 @@ CI (`.github/workflows/ci.yml`) runs lint + the full suite on every push/PR to `
 - **One entry point**: `make pipeline` (or the Docker `CMD`) is the only thing anyone
   needs to run — no manual cell execution, no hidden ordering requirements.
 
-## Handoff to Person C
-
-Person C's drift-testing harness should depend only on `src/fraud_pipeline/inference.py`:
 
 ```python
 from src.fraud_pipeline.inference import load_inference_artifacts, predict_batch
@@ -150,8 +142,3 @@ scored_df = predict_batch(simulated_batch_df, model, scaler, threshold)
 #   fraud_probability — model's raw score
 #   fraud_prediction  — thresholded 0/1 call
 ```
-
-`predict_batch` re-validates every incoming batch against the same schema training
-used, so a malformed simulated batch raises immediately instead of scoring silently.
-`Class`, if present in the batch, is passed through untouched — useful for comparing
-predictions against ground truth when measuring drift.
