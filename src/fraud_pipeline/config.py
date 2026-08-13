@@ -1,9 +1,4 @@
-"""Loads configs/config.yaml into a single object every stage imports from.
-
-Keeping this in one place is what makes the pipeline "configurable, not
-hardcoded" — Person A's notebook had split ratios, model hyperparameters,
-and thresholds scattered across cells. Here they live in one YAML file.
-"""
+"""Loads configs/config.yaml into a single object every stage imports from."""
 from __future__ import annotations
 
 from pathlib import Path
