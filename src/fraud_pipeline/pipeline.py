@@ -1,21 +1,3 @@
-"""Stage orchestration — plain Python chain, no external scheduler.
-
-Runs ingestion -> validation -> preprocessing -> training -> evaluation
--> persist artifacts, in that order, inside one MLflow run.
-
-This replaces an earlier Prefect-based version: once ingestion moved
-to reading a local file instead of calling an external API, Prefect's
-retry/scheduling machinery wasn't earning its dependency weight for
-this project's scope. If you outgrow this later — scheduled runs, a
-run graph UI, automatic retries on a flaky step — reintroducing
-Prefect here is a small change: wrap each stage call below in a
-`@task` and this function in a `@flow`.
-
-Run with:
-    python -m src.fraud_pipeline.pipeline
-or:
-    make pipeline
-"""
 from __future__ import annotations
 
 import logging
