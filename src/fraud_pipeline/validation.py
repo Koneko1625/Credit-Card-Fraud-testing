@@ -1,10 +1,3 @@
-"""Stage 2: Data validation.
-
-This is the pandera schema from Part A's "Data Validation" section,
-lifted verbatim into a reusable function so both the pipeline and the
-test suite can call it against any DataFrame (not just the one global
-`df` the notebook relied on).
-"""
 from __future__ import annotations
 
 import logging
