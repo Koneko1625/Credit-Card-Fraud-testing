@@ -1,14 +1,3 @@
-"""Stage 4: Training, with MLflow tracking wired in.
-
-train_logistic_regression() / train_xgboost_tuned() log params + the
-fitted model to MLflow. Each function logs into whichever MLflow run
-is already active (e.g. the one pipeline.py opens around the whole
-training+evaluation block) rather than opening its own — opening a
-second run while one is already active is an error, not a nested run,
-unless you explicitly ask for nested=True. If no run is active when
-one of these is called directly (standalone use, outside the
-pipeline), it opens and manages its own run instead.
-"""
 from __future__ import annotations
 
 import logging
