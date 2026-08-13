@@ -1,21 +1,3 @@
-"""Batch inference interface — this is the handoff to Person C.
-
-C needs to feed in simulated batches (for drift testing) without caring
-about how the model was trained. This module is the one contract they
-should depend on:
-
-    from fraud_pipeline.inference import load_inference_artifacts, predict_batch
-
-    model, scaler, threshold = load_inference_artifacts()
-    scored_df = predict_batch(df, model, scaler, threshold)
-
-`predict_batch` takes a raw, unscored DataFrame shaped like the
-original data (same columns, minus "Class" if present) and returns it
-with two extra columns: fraud_probability and fraud_prediction. It
-re-validates the batch against the same pandera schema training used,
-so a malformed simulated batch fails loudly instead of silently
-producing garbage predictions.
-"""
 from __future__ import annotations
 
 import json
