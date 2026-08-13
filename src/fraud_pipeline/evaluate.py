@@ -1,11 +1,3 @@
-"""Stage 5: Evaluation.
-
-Computes the standard metrics plus the 21-point threshold sweep Part A
-ran to find the best-F1 operating point, and logs all of it to the
-active (or a new) MLflow run: metrics, the full threshold table as a
-CSV artifact, and the PR/ROC-style plot. This is the "before/after" —
-in the notebook these numbers only existed as printed cell output.
-"""
 from __future__ import annotations
 
 import logging
